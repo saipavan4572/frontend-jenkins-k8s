@@ -1,0 +1,45 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: frontend
+  namespace: expense
+  # these labels are deployment related labels
+  labels:
+    component: frontend              #labels we can give anythig as required
+    project: expense
+    tier: web
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  selector:
+    matchLabels:
+      component: frontend
+      project: expense
+      tier: web
+  # pod definition
+  template:
+    metadata: 
+      labels:
+        component: frontend
+        project: expense
+        tier: web
+    spec:
+      containers:
+      - name: frontend
+        ## replace with your own image id created in ECR.
+        #image: 315069654700.dkr.ecr.us-east-1.amazonaws.com/expense-frontend:{{ .Values.deployment.imageVersion }}
+        image: 533267158693.dkr.ecr.us-east-1.amazonaws.com/expense-frontend:{{ .Values.deployment.imageVersion }}
+        volumeMounts:
+        - name: nginx-conf
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+          readOnly: true
+        # envFrom:
+        # - configMapRef:
+        #     name: frontend
+      volumes:
+      - name: nginx-conf
+        configMap:
+          name: frontend
+          items: 
+          - key: nginx.conf
+            path: nginx.conf
