@@ -66,10 +66,11 @@ pipeline {
                     aws eks update-kubeconfig --region us-east-1 --name expense-dev
                     cd helm
                     sed -i 's/IMAGE_VERSION/${appVersion}/g' values.yaml
-                    helm install frontend .
+                    
+                    # helm install frontend .
                     # helm install frontend . ---> this can be used for the 1st time installing the frontend helm
+                    
                     helm upgrade frontend .
-                    # helm upgrade --namespace expense frontend .
                     # helm upgrade frontend . --- this can be used after helm install - 2nd time onwards.
                 """
             }
