@@ -68,8 +68,9 @@ pipeline {
                     sed -i 's/IMAGE_VERSION/${appVersion}/g' values.yaml
                     # helm install frontend .
                     # helm install frontend . ---> this can be used for the 1st time installing the frontend helm
+                    helm uninstall frontend
                     # helm upgrade frontend .
-                    helm upgrade --namespace expense frontend .
+                    # helm upgrade --namespace expense frontend .
                     # helm upgrade frontend . --- this can be used after helm install - 2nd time onwards.
                 """
             }
